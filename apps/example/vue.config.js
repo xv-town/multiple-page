@@ -1,5 +1,6 @@
 const path = require('path');
 const { name } = require('./project.config.json');
+const AssetsCDNWebpackPlugin = require('assets-cdn-webpack-plugin');
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const USE_MOCK = false;
@@ -54,8 +55,25 @@ module.exports = {
       filename: `js/[name].js?t=${timeStamp.time}`,
       chunkFilename: `js/chunks/[name].js?t=${timeStamp.time}`
     },
+    externals: process.env.NODE_ENV === 'production' ? {
+      axios: 'Axios',
+      vue: 'Vue',
+      vuex: 'Vuex',
+      'vue-router': 'VueRouter'
+    } : undefined,
     // plugins: process.env.NODE_ENV === 'production' ? [
     //   new BundleAnalyzerPlugin()
     // ] : []
+    plugins: process.env.NODE_ENV === 'production' ? [
+      new AssetsCDNWebpackPlugin({
+        rename: (suffix, name) => `${name}.min.${suffix}`, // not must
+        baseURL: `/static/common/js`,
+        htmls: {
+          index: {
+            js: ['axios', 'vue', 'vuex', 'vue-router']
+          }
+        }
+      })
+    ] : []
   }
 }

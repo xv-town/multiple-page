@@ -1524,6 +1524,11 @@ assert@^1.1.1:
     object-assign "^4.1.1"
     util "0.10.3"
 
+assets-cdn-webpack-plugin@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.npm.taobao.org/assets-cdn-webpack-plugin/download/assets-cdn-webpack-plugin-1.1.0.tgz#10e70f1f8febc83386d85b21c956a7071a86f8bf"
+  integrity sha1-EOcPH4/ryDOG2FshyVanBxqG+L8=
+
 assign-symbols@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npm.taobao.org/assign-symbols/download/assign-symbols-1.0.0.tgz#59667f41fadd4f20ccbc2bb96b8d4f7f78ec0367"
