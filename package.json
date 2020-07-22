@@ -10,7 +10,7 @@
   },
   "scripts": {
     "all:build": "npm-run-all build:*",
-    "build:form": "cd apps/form && yarn build",
-    "build:admin": "cd apps/admin && yarn build"
+    "build:eg-vue": "cd apps/eg-vue && yarn build",
+    "build:eg-react": "cd apps/eg-react && yarn build"
   }
 }
