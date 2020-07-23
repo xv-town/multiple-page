@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import store from '../store'
-import { baseUrl } from '../../project.config.json'
+import { name, passid } from '../../project.config.json'
 
 import ViewNotFound from '@/components/404'
 
@@ -26,9 +26,10 @@ const routes = [
     meta: {}
   }
 ]
+const base = `${passid ? '/' + passid : ''}/${name}`;
 const router = new VueRouter({
   mode: 'history',
-  base: baseUrl,
+  base,
   routes
 })
 

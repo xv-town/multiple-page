@@ -1,11 +1,43 @@
 const path = require('path');
-const { name } = require('./project.config.json');
+const { name, passid } = require('./project.config.json');
 const AssetsCDNWebpackPlugin = require('assets-cdn-webpack-plugin');
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const USE_MOCK = false;
 const MOCK_URL = 'http://localhost:3737';
-const API_URL = 'http://www.example.com'
+const API_URL = 'http://www.example.com';
+const IS_PRO = process.env.NODE_ENV === 'production';
+
+const LIBS_VERION = {
+  'vue': '2_6_11',
+  'vue-router': '3_1_6',
+  'vuex': '3_3_0',
+  'axios': '0_19_2',
+};
+
+const plugins = [
+  // new VueSkeletonWebpackPlugin({
+  //   webpackConfig: {
+  //     entry: skeletons.entry
+  //   },
+  //   quiet: true,
+  //   minimize: true,
+  //   router: skeletons.routers
+  // }),
+]
+
+if (IS_PRO) {
+  plugins.push(new AssetsCDNWebpackPlugin({
+    baseURL: `/${passid}/cloud`,
+    rename: (type, filename) => `/${filename}/${LIBS_VERION[filename]}.min.${type}`,
+    htmls: {
+      index: {
+        js: ['vue', 'vue-router', 'vuex', 'axios'],
+        // css: ['ant-design-vue']
+      }
+    }
+  }))
+}
 
 const timeStamp = (() => {
   let _time = new Date();
@@ -20,8 +52,8 @@ function resolve(dir) {
   return path.join(__dirname, dir);
 }
 module.exports = {
-  publicPath: process.env.NODE_ENV === 'production'
-    ? `/static/${name}/`
+  publicPath: IS_PRO
+    ? `/${passid}/${name}/`
     : '/',
   outputDir: resolve(`../../dist/${name}`),
   devServer: {
@@ -44,7 +76,7 @@ module.exports = {
     }
   },
   configureWebpack: {
-    devtool: process.env.NODE_ENV === 'production' ? 'none' : 'source-map',
+    devtool: IS_PRO ? 'none' : 'source-map',
     resolve: {
       alias: {
         '@': resolve('src'),
@@ -55,25 +87,15 @@ module.exports = {
       filename: `js/[name].js?t=${timeStamp.time}`,
       chunkFilename: `js/chunks/[name].js?t=${timeStamp.time}`
     },
-    externals: process.env.NODE_ENV === 'production' ? {
-      axios: 'Axios',
+    externals: IS_PRO ? {
+      axios: 'axios',
       vue: 'Vue',
       vuex: 'Vuex',
       'vue-router': 'VueRouter'
     } : undefined,
-    // plugins: process.env.NODE_ENV === 'production' ? [
+    // plugins: IS_PRO ? [
     //   new BundleAnalyzerPlugin()
     // ] : []
-    plugins: process.env.NODE_ENV === 'production' ? [
-      new AssetsCDNWebpackPlugin({
-        rename: (suffix, name) => `${name}.min.${suffix}`, // not must
-        baseURL: `/static/common/js`,
-        htmls: {
-          index: {
-            js: ['axios', 'vue', 'vuex', 'vue-router']
-          }
-        }
-      })
-    ] : []
+    plugins
   }
 }

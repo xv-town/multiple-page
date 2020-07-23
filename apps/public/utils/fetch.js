@@ -1,4 +1,4 @@
-import Axios from 'axios'
+import axios from 'axios'
 
 // 根据不同的状态码，生成不同的提示信息
 const showStatus = (status) => {
@@ -44,7 +44,7 @@ const showStatus = (status) => {
   return `${message}，请检查网络或联系管理员！`
 }
 
-const fetch = Axios.create({
+const fetch = axios.create({
   // baseURL: '/api',
   headers: {
     'Content-Type': 'application/json;charset=utf-8'
