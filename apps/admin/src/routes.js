@@ -40,16 +40,25 @@ let routers = [
     menu: true,
     layout: true,
     icon: <ShoppingOutlined />,
-    children: [
+    routes: [
       {
         name: 'menu.orderList',
-        path: '/list',
+        path: '/order/list',
         exact: true,
         layout: true,
         menu: true,
         history: true,
         link: true,
         component: ViewOrderList
+      },
+      {
+        name: 'root.userInfo',
+        path: '/order/info/:orderId',
+        exact: true,
+        strict: true,
+        layout: true,
+        history: true,
+        component: (props) => <pre>{JSON.stringify(props, null, 2)}</pre>
       }
     ]
   },

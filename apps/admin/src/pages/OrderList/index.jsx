@@ -1,78 +1,52 @@
 import React from 'react';
-import dayjs from 'dayjs';
+import { Link } from 'react-router-dom';
 import { Table, Button } from 'antd';
 import RouterNested from '../../layout/components/RouterNested'
+import { translator } from '../../i18n';
 
 import SearchForm from './SearchForm';
 
 const columns = [
   {
-    title: '编号',
+    title: translator('root.username'),
     width: 60,
-    dataIndex: 'code',
-    key: 'code',
+    dataIndex: 'username',
+    key: 'username',
     fixed: 'left',
   },
   {
-    title: '订单号',
+    title: translator('root.userId'),
     width: 100,
-    dataIndex: 'shop_id',
-    key: 'shop_id',
+    dataIndex: 'user_id',
+    key: 'user_id',
   },
   {
-    title: '仓库',
-    dataIndex: 'shop_name',
-    key: 'shop_name',
+    title: translator('root.userPhone'),
+    dataIndex: 'user_phone',
+    key: 'user_phone',
     width: 150,
   },
   {
-    title: '主图',
-    dataIndex: 'shop_site',
-    key: 'shop_site',
-    width: 80,
-  },
-  {
-    title: '面单',
-    dataIndex: 'shop_status',
-    key: 'shop_status',
-    width: 80,
-  },
-  {
-    title: '快递单号',
-    dataIndex: 'auth_time',
-    key: 'auth_time',
+    title: translator('root.userInfo'),
+    dataIndex: 'user_info',
+    key: 'user_info',
     width: 150,
-    render (data) {
-      return dayjs(data).format('YYYY-MM-DD hh:mm:ss');
+    render (text, { user_id }) {
+      return <Link to={`/order/info/${user_id}`}>{ text }</Link>
     }
-  },
-  {
-    title: '备注',
-    dataIndex: 'opts',
-    key: 'opts',
-    width: 150
-  },
-  {
-    title: '状态',
-    dataIndex: 'opts',
-    key: 'opts',
-    width: 100
-  },
-  {
-    title: '创建时间',
-    dataIndex: 'opts',
-    key: 'opts',
-    width: 100
-  },
-  {
-    title: '操作',
-    dataIndex: 'opts',
-    key: 'opts',
-    width: 100
-  },
+  }
 ];
 
 const data = [];
+
+for (let i = 0; i < 100; i++) {
+  data.push({
+    username: 'username_' + i,
+    user_id: 'user_id_' + i,
+    user_phone: 'user_phone_' + i,
+    user_info: 'user_info_' + i,
+  })
+}
 
 class PageShop extends React.Component {
   render () {
@@ -80,6 +54,7 @@ class PageShop extends React.Component {
       <SearchForm />
       <Table
         columns={columns}
+        rowKey={({ user_id }) => user_id}
         dataSource={data}
         scroll={{ y: 600 }}
       />

@@ -1,3 +1,4 @@
+import pathToRegExp from 'path-to-regexp';
 import routes from '../../../routes';
 import * as tab from './utils';
 
@@ -5,7 +6,7 @@ function findRoute (routes, pathname) {
   let result = null;
 
   for (let i = 0; i < routes.length; i++) {
-    if (routes[i].path === pathname) {
+    if (pathToRegExp(routes[i].path).test(pathname)) {
       result = routes[i];
       break;
     }
@@ -13,12 +14,12 @@ function findRoute (routes, pathname) {
   return result;
 }
 
-const serializeRoutes = (routes, root = '') => {
+const serializeRoutes = (routes) => {
   let result = [];
   routes.forEach(item => {
-    result.push(Object.assign({}, item, { path: `${root}${item.path}` }));
-    if (item.children && item.children.length) {
-      result.push(...serializeRoutes(item.children, item.path));
+    result.push(Object.assign({}, item, { path: `${item.path}` }));
+    if (item.routes && item.routes.length) {
+      result.push(...serializeRoutes(item.routes));
     }
   });
   return result;

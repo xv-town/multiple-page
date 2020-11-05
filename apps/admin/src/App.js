@@ -1,9 +1,6 @@
-import React, { Suspense } from 'react';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route
-} from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { renderRoutes } from "react-router-config";
 import { Provider } from 'react-redux';
 import routes from './routes';
 
@@ -17,23 +14,6 @@ import './i18n';
 import { isLogin } from './utils/auth';
 
 const { BASE_URL } = process.env;
-
-function RouteWithSubRoutes(route) {
-  return (
-    <Route
-      path={route.path}
-      render={props => {
-        return (
-          <route.component
-            {...props}
-            root={route.path || ''}
-            children={route.children}
-          />
-        )
-      }}
-    />
-  );
-}
 
 function App() {
   return (
@@ -50,13 +30,7 @@ function App() {
             }}
           />
           <ErrorBoundary>
-            <Switch>
-              {
-                routes.map((route, i) => (
-                  <RouteWithSubRoutes key={i} {...route} />
-                ))
-              }
-            </Switch>
+            { renderRoutes(routes) }
           </ErrorBoundary>
         </RouterLayout>
       </Router>

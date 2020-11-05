@@ -26,8 +26,16 @@ lang.set = (val) => {
 
 let lng = lang.get();
 
-export function onChange(lng) {
+export const translator = (text) => {
+  return i18n.t(text)
+}
+
+export const setLang = (lng) => {
   lang.set(lng);
+  window.location.reload();
+}
+
+export function onChange(lng) {
   i18n
     .use(initReactI18next) // passes i18n down to react-i18next
     .init({

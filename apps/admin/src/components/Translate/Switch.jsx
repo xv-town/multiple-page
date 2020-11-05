@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Radio, Menu, Dropdown } from 'antd';
 import Translate from './index';
-import { onChange, lang } from '../../i18n';
+import { setLang, lang } from '../../i18n';
 
 const lng = lang.get();
 
@@ -23,7 +23,8 @@ const langs = [
 const menu = () => {
   return (
     <Menu
-      onClick={({ key }) => onChange(key)}
+      selectedKeys={lng}
+      onClick={({ key }) => setLang(key)}
     >
       {
         langs.map(item => {
