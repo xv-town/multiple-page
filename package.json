@@ -12,6 +12,7 @@
     "all:build": "npm-run-all build:*",
     "build:eg-vue": "cd apps/eg-vue && yarn build",
     "build:eg-react": "cd apps/eg-react && yarn build",
+    "dev:admin": "cd apps/admin && yarn start",
     "dev:eg-vue": "cd apps/eg-vue && yarn serve",
     "dev:eg-react": "cd apps/eg-react && yarn start",
     "build:cdn": "cd apps/cdn && node copy"

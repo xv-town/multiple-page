@@ -49,7 +49,7 @@ const CreateMenu = (routes) => {
         {
           item.routes.filter(isMenu).map(child => {
             return <Menu.Item
-              key={`${item.path}${child.path}`}
+              key={`${child.path}`}
               icon={child.icon}
             >
               { MenuLink(child) }
@@ -67,12 +67,12 @@ const CreateMenu = (routes) => {
     }
   })
 }
-const GetOpenKey = (key, root, prefix = '') => {
+const GetOpenKey = (key, root) => {
   for (let i = 0; i < root.length; i++) {
-    if (`${prefix}${root[i].path}` === key) {
+    if (`${root[i].path}` === key) {
       return root[i].path
     }
-    if (root[i].routes && root[i].routes.length && GetOpenKey(key, root[i].routes, root[i].path)) {
+    if (root[i].routes && root[i].routes.length && GetOpenKey(key, root[i].routes)) {
       return root[i].path
     }
   }
